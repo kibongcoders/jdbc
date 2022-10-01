@@ -11,15 +11,23 @@ public class MemberRepositoryVoTest {
 
     MemberRepositoryV0 memberRepositoryV0 = new MemberRepositoryV0();
 
+    /**
+     * insertTest
+     *
+     * @throws Exception
+     */
     @Test
     public void crud() throws Exception {
         Member member = new Member();
         member.setMember_id("kibong");
         member.setMoney(30000);
         memberRepositoryV0.save(member);
-        assertThatThrownBy()
     }
 
+    /**
+     * Select 테스트
+     * @throws Exception
+     */
     @Test
     public void getById()throws Exception{
         Member findMember = new Member();
@@ -28,11 +36,19 @@ public class MemberRepositoryVoTest {
 
     }
 
+    /**
+     * 업데이트 테스트
+     * @throws Exception
+     */
     @Test
     public void update()throws Exception{
         memberRepositoryV0.update(50000, "kibong");
     }
 
+    /**
+     * 삭제 테스트
+     * @throws Exception
+     */
     @Test
     public void delete()throws Exception{
         memberRepositoryV0.delete("kibong");

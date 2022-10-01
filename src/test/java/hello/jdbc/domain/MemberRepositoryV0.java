@@ -9,25 +9,40 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class MemberRepositoryV0 {
 
+    /**
+     * insert
+     * @param member
+     * @return Member
+     * @throws Exception
+     */
     public Member save (Member member) throws Exception{
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
+        //해당 sql문
         String sql = "INSERT INTO MEMBER(member_id, money) VALUES(?,?)";
 
-
         try {
+            //커넥션 가져오기
             connection = getConnection();
+
+            //커넥션 prepareStatement에 sql 넣기
             preparedStatement = connection.prepareStatement(sql);
+
+            // ?,? 인제 값 넣어주기 index 번호와 값
+            // 만약에 이렇게 안해주고 String을 그래도 넣을 시 SQL Injection 발생 할 수도 있음
             preparedStatement.setString(1,member.getMember_id());
             preparedStatement.setInt(2, member.getMoney());
+
+            //sql 실행
             preparedStatement.executeUpdate();
             return member;
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
+            //끝날 시에는 커넥션을 종료해주어야 한다.
             close(connection, preparedStatement, null);
         }
 
@@ -64,6 +79,12 @@ public class MemberRepositoryV0 {
         }
     }
 
+    /**
+     * 커넥션 종료
+     * @param con
+     * @param statement
+     * @param rs
+     */
     private void close(Connection con, Statement statement, ResultSet rs){
 
         if(rs != null){
